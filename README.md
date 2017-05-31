@@ -22,38 +22,36 @@ Telegram bot for looking for news. Has scheduling and preferences
 
 
 Use:
-`
+```MySQL
+   CREATE TABLE NewsBot (
 
-CREATE TABLE NewsBot (
+   -> usr_name VARCHAR(150),
 
---> usr_name VARCHAR(150),
+   -> chat_id INT(15) NOT NULL PRIMARY KEY,
 
---> chat_id INT(15) NOT NULL PRIMARY KEY,
+   -> lang CHAR(2),
 
---> lang CHAR(2),
+   -> diff_time VARCHAR(50),
 
---> diff_time VARCHAR(50),
+   -> preferences VARCHAR(10000),
 
---> preferences VARCHAR(10000),
+   -> programation VARCHAR(150),
 
---> programation VARCHAR(150),
+   -> next_prog VARCHAR(150),
 
---> next_prog VARCHAR(150),
+   -> msg_id INT(20),
 
---> msg_id INT(20),
+   -> max_results INT(3),
 
---> max_results INT(3),
+   -> is_time VARCHAR(5),
 
---> is_time VARCHAR(5),
+   -> is_prog VARCHAR(5),
 
---> is_prog VARCHAR(5),
+   -> is_pref VARCHAR(5)
 
---> is_pref VARCHAR(5)
+   );
+```
 
-);
-
-
-`
 
 2. Then, ask [BotFather](http://t.me/BotFather) for a TOKEN unique for your bot.
 3. Save that token into a file called *TOKEN.txt*.
