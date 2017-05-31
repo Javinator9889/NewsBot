@@ -1,6 +1,10 @@
 # NewsBot
 Telegram bot for looking for news. Has scheduling and preferences
 
+**TRY IT RIGHT HERE:** [@GooglNews_bot](https://t.me/GooglNews_bot)
+
+*Don't forget to rate:* [Rate this bot 🌟](https://storebot.me/bot/googlnews_bot)
+
 ## Installing
 
 1. First, you have to create a table in **MySQL** like this:
