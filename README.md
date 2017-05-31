@@ -22,7 +22,9 @@ Telegram bot for looking for news. Has scheduling and preferences
 
 
 Use:
-`CREATE TABLE NewsBot (
+`
+
+CREATE TABLE NewsBot (
 
 --> usr_name VARCHAR(150),
 
@@ -48,7 +50,10 @@ Use:
 
 --> is_pref VARCHAR(5)
 
-);`
+);
+
+
+`
 
 2. Then, ask [BotFather](http://t.me/BotFather) for a TOKEN unique for your bot.
 3. Save that token into a file called *TOKEN.txt*.
