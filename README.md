@@ -4,37 +4,22 @@ Telegram bot for looking for news. Has scheduling and preferences
 ## Installing
 
 1. First, you have to create a table in **MySQL** like this:
-+--------------+---------------+------+-----+---------+-------+
 
-| Field        | Type          | Null | Key | Default | Extra |
+ Field        | Type          | Null | Key | Default | Extra 
+--------------|---------------|------|-----|---------|-------
+ chat_id      | int(15)       | NO   | PRI | NULL    |       
+ lang         | char(2)       | YES  |     | NULL    |       
+ preferences  | varchar(1000) | YES  |     | NULL    |       
+ diff_time    | varchar(50)   | YES  |     | NULL    |       
+ is_time      | varchar(5)    | YES  |     | NULL    |       
+ programation | varchar(150)  | YES  |     | NULL    |       
+ is_prog      | varchar(5)    | YES  |     | NULL    |       
+ is_pref      | varchar(5)    | YES  |     | NULL    |       
+ msg_id       | int(20)       | YES  |     | NULL    |       
+ max_results  | int(3)        | YES  |     | NULL    |       
+ next_prog    | varchar(150)  | YES  |     | NULL    |       
+ usr_name     | varchar(150)  | YES  |     | NULL    |       
 
-+--------------+---------------+------+-----+---------+-------+
-
-| chat_id      | int(15)       | NO   | PRI | NULL    |       |
-
-| lang         | char(2)       | YES  |     | NULL    |       |
-
-| preferences  | varchar(1000) | YES  |     | NULL    |       |
-
-| diff_time    | varchar(50)   | YES  |     | NULL    |       |
-
-| is_time      | varchar(5)    | YES  |     | NULL    |       |
-
-| programation | varchar(150)  | YES  |     | NULL    |       |
-
-| is_prog      | varchar(5)    | YES  |     | NULL    |       |
-
-| is_pref      | varchar(5)    | YES  |     | NULL    |       |
-
-| msg_id       | int(20)       | YES  |     | NULL    |       |
-
-| max_results  | int(3)        | YES  |     | NULL    |       |
-
-| next_prog    | varchar(150)  | YES  |     | NULL    |       |
-
-| usr_name     | varchar(150)  | YES  |     | NULL    |       |
-
-+--------------+---------------+------+-----+---------+-------+
 
 Use:
 `CREATE TABLE NewsBot (
