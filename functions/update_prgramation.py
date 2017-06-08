@@ -7,26 +7,22 @@ import functions.database_manager as db_m
 
 def update_time(bot, chat_id, text):
     lang = db_m.read_lang(chat_id)
+    db_m.last_usage(chat_id, datetime.datetime.now().strftime("%H:%M %d-%m-%Y"))
     currently_setup = db_m.get_time_prog(chat_id)
     if currently_setup is None:
         prog_list = []
     else:
         prog_list = currently_setup.split(",")
-    print(prog_list)
     try:
         if len(prog_list) > 1:
             raise TabError('Only set-up two different times')
-        """time_1 = text.lower().replace("lun", "mon").replace("mar", "tue").replace("mie", "thu").replace("jue", "thu")\
-            .replace("vie", "fri").replace("sab", "sat").replace("dom", "sun")"""
         time = text.split(",")
-        print(time, len(time))
         days = {0: "mon", 1: "tue", 2: "wed", 3: "thu", 4: "fri", 5: "sat", 6: "sun"}
         dias = {0: "lun", 1: "mar", 2: "mie", 3: "jue", 4: "vie", 5: "sab", 6: "dom"}
         weekday = None
         other_wd = None
         for a in range(0, len(time)):
             current = time[a]
-            print(current)
             for m in range(0, 6):
                 if lang == 'en':
                     if days.get(m) in current:
@@ -44,7 +40,6 @@ def update_time(bot, chat_id, text):
                         elif a == 1:
                             other_wd = days.get(m)
                             num_day_2 = m
-        print(weekday, other_wd)
         if len(time) > 1:
             try:
                 check_time = datetime.datetime.strptime(time[0], "%H:%M")
@@ -100,7 +95,6 @@ def update_time(bot, chat_id, text):
                         except ValueError:
                             raise TypeError('Time format is not correct')
         time_diff = db_m.get_time_diff(chat_id)
-        print(time_diff, check_time, check_time_2)
 
         if time_diff > 0 and len(time) > 1:
             updated_time_1 = check_time - datetime.timedelta(hours=time_diff)
@@ -156,14 +150,10 @@ def update_time(bot, chat_id, text):
             else:
                 server_time_1 = updated_time_1.strftime("%H:%M")
 
-        print(server_time_1, server_time_2)
-
         if len(time) > 1:
             updated_scheduler = server_time_1 + "," + server_time_2
         else:
             updated_scheduler = server_time_1 + ","
-
-        print(updated_scheduler)
 
         db_m.update_prog(chat_id, updated_scheduler)
         db_m.is_prog(chat_id, False)

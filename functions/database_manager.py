@@ -1,8 +1,9 @@
 import pymysql
+from functions.db_connection import db_connection
 
 
 def r_w_chat_id(chat_id, user):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -23,8 +24,25 @@ def r_w_chat_id(chat_id, user):
         return "In_db"
 
 
+def read_chatid(chat_id):
+    db = db_connection()
+    c = db.cursor()
+    0
+    c.execute('SET NAMES utf8;')
+    c.execute('SET CHARACTER SET utf8;')
+    c.execute('SET character_set_connection=utf8;')
+
+    c.execute("""SELECT chat_id FROM NewsBot WHERE chat_id = %s""", chat_id)
+    db_chat_id = c.fetchone()
+
+    if db_chat_id is None:
+        return None
+    else:
+        return "In database"
+
+
 def read_lang(chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -43,7 +61,7 @@ def read_lang(chat_id):
 
 
 def write_lang(chat_id, lang):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -58,7 +76,7 @@ def write_lang(chat_id, lang):
 
 
 def get_time_diff(chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -77,7 +95,7 @@ def get_time_diff(chat_id):
 
 
 def is_time(chat_id, change):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -106,7 +124,7 @@ def is_time(chat_id, change):
 
 
 def update_time(chat_id, time):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -120,7 +138,7 @@ def update_time(chat_id, time):
 
 
 def is_pref(chat_id, change):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -149,7 +167,7 @@ def is_pref(chat_id, change):
 
 
 def get_pref(chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -169,7 +187,7 @@ def get_pref(chat_id):
 
 
 def update_pref(chat_id, preferences):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -183,7 +201,7 @@ def update_pref(chat_id, preferences):
 
 
 def is_prog(chat_id, change):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -212,7 +230,7 @@ def is_prog(chat_id, change):
 
 
 def get_time_prog(chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -232,7 +250,7 @@ def get_time_prog(chat_id):
 
 
 def update_prog(chat_id, prog_hours):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -246,7 +264,7 @@ def update_prog(chat_id, prog_hours):
 
 
 def last_msgid(chat_id, message_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -260,7 +278,7 @@ def last_msgid(chat_id, message_id):
 
 
 def read_last_msgid(chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -280,7 +298,7 @@ def read_last_msgid(chat_id):
 
 
 def get_max(chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -300,7 +318,7 @@ def get_max(chat_id):
 
 
 def update_max(value, chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -314,7 +332,7 @@ def update_max(value, chat_id):
 
 
 def read_prog(chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -334,7 +352,7 @@ def read_prog(chat_id):
 
 
 def update_prog_time(value, chat_id):
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -348,7 +366,7 @@ def update_prog_time(value, chat_id):
 
 
 def fetch_chatids_progtimes():
-    db = pymysql.connect("localhost", "javialonso", "p@ssw0rd", "javialonso", charset='utf8')
+    db = db_connection()
     c = db.cursor()
     0
     c.execute('SET NAMES utf8;')
@@ -367,4 +385,15 @@ def fetch_chatids_progtimes():
         return False
 
 
+def last_usage(chat_id, time):
+    db = db_connection()
+    c = db.cursor()
+    0
+    c.execute('SET NAMES utf8;')
+    c.execute('SET CHARACTER SET utf8;')
+    c.execute('SET character_set_connection=utf8;')
 
+    c.execute("""UPDATE NewsBot SET last_time = %s WHERE chat_id = %s""", (time, chat_id))
+
+    db.commit()
+    db.close()

@@ -12,10 +12,11 @@ def add_day(text, chat_id, which):
     if which == 1 and len(actual) > 1:
         act = actual[0]
     elif which == 1 and len(actual) < 2:
-        act = actual
+        act = actual[0]
     elif which == 2:
         act = actual[1]
     else:
+        print("Returning none...")
         return None
 
     t_zone = db_m.get_time_diff(chat_id)
@@ -45,6 +46,7 @@ def add_week(text, chat_id, which):
     elif which == 2:
         act = actual[1]
     else:
+        print("Returning none...")
         return None
 
     if 'lun' in act:

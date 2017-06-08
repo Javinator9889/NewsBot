@@ -8,8 +8,8 @@ import pytz
 
 @run_async
 def key_del_prog(bot, update, chat_id, lang, message_id):
+    print("Inside key_del")
     act = db_m.get_time_prog(chat_id)
-    print(act)
     if act is None:
         if lang == 'es':
             bot.editMessageText(chat_id=chat_id,
@@ -21,35 +21,34 @@ def key_del_prog(bot, update, chat_id, lang, message_id):
                                 message_id=message_id)
     else:
         list_act = act.split(",")
-        if len(list_act) < 2:
-            print("Inside len < 2")
+        if len(list_act) == 1:
             if lang == 'es':
-                print("lang is 'es'")
                 text = "Éstas son actualmente las horas que tienes programadas. Pulsa en una para eliminarla"
                 del_all = "Eliminar todo"
+                back = "◀ Atrás"
             else:
                 text = "These are actually your scheduled hours. Press on one for deleting it"
                 del_all = "Delete all"
+                back = "◀ Back"
             time = str(list_act[0])
-            print("Used time:", time)
             time2 = None
         else:
             if lang == 'es':
                 text = "Éstas son actualmente las horas que tienes programadas. Pulsa en una para eliminarla"
                 del_all = "Eliminar todo"
+                back = "◀ Atrás"
             else:
                 text = "These are actually your scheduled hours. Press on one for deleting it"
                 del_all = "Delete all"
+                back = "◀ Back"
             time = str(list_act[0])
             time2 = str(list_act[1])
 
         if time2 is not None:
-            print("time2 is not None")
             keyboard = [[InlineKeyboardButton(time, callback_data='First'), InlineKeyboardButton(time2, callback_data='Second')],
-                        [InlineKeyboardButton(del_all, callback_data='All')]]
+                        [InlineKeyboardButton(del_all, callback_data='All'), InlineKeyboardButton(back, callback_data='prog')]]
         else:
-            print("time2 is None")
-            keyboard = [[InlineKeyboardButton(time, callback_data='First')]]
+            keyboard = [[InlineKeyboardButton(time, callback_data='First'), InlineKeyboardButton(back, callback_data='prog')]]
 
         reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -62,12 +61,15 @@ def key_time_prog(bot, update, chat_id, lang, message_id):
         text = "¿Qué quieres actualizar? Elige una opción"
         button_1 = "Programar 🕙"
         button_2 = "Quitar horas 🚫"
+        back = "◀ Atrás"
     else:
         text = "What you want to do? Choose an option"
         button_1 = "Scheduling 🕙"
         button_2 = "Delete hours🚫"
+        back = "◀ Back"
 
-    keyboard = [[InlineKeyboardButton(button_1, callback_data='add_prog'), InlineKeyboardButton(button_2, callback_data='del_prog')]]
+    keyboard = [[InlineKeyboardButton(button_1, callback_data='add_prog'), InlineKeyboardButton(button_2, callback_data='del_prog')],
+                [InlineKeyboardButton(back, callback_data='pref2')]]
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -101,35 +103,35 @@ def main_menu(bot, update, chat_id, message_id, lang):
         if lang == 'es':
             bot.sendMessage(chat_id=chat_id,
                             text="ɢᴜíᴀ ᴅᴇ ᴜsᴏ" \
-                                 "\n\nHola, bienvenido 😃\n\nA continuación *tienes una guía* 📖 para aprender a utilizar este bot:" \
-                                 " selecciona 👇 las *diferentes opciones* 🔢 y navega por los distintos *menús que aparecerán*\n\n" \
-                                 "❗_Utiliza_ /help _cuando estés haciendo cualquier acción con el bot para obtener ayuda personalizada_",
+                                 "\n\nHola, bienvenido 😃\n\nUsa la *guía básica* para aprender a usar el bot. El" \
+                                 " _menú principal_ se encuentra abajo a la derecha, el icono de la barra  *[ / ]*" \
+                                 "\n\n❗_Utiliza_ /help _cuando estés haciendo cualquier acción con el bot para obtener ayuda personalizada_",
                             parse_mode=telegram.ParseMode.MARKDOWN,
                             reply_markup=reply_markup)
         elif lang == 'en':
             bot.sendMessage(chat_id=chat_id,
                             text="ᴜsᴀɢᴇ ɢᴜɪᴅᴇ" \
-                                 "\n\nHi, welcome 😃\n\nRight now, *you have a guide* 📖 for using this bot:" \
-                                 " choose 👇 between *different options* 🔢 and go trough *various menus that will appear*\n\n" \
-                                 "❗_Use_ /help _when you are doing something with the bot to get personalized help_",
+                                 "\n\nHi, welcome 😃\n\nUse the *basic guide* to learn how to use this bot. The" \
+                                 " _main menu_ is located at the bottom right, the slash icon  *[ / ]*" \
+                                 "\n\n❗_Use_ /help _when you are doing something with the bot to get personalized help_",
                             parse_mode=telegram.ParseMode.MARKDOWN,
                             reply_markup=reply_markup)
     else:
         if lang == 'es':
             bot.editMessageText(chat_id=chat_id,
                                 text="ɢᴜíᴀ ᴅᴇ ᴜsᴏ" \
-                                     "\n\nHola, bienvenido 😃\n\nA continuación *tienes una guía* 📖 para aprender a utilizar este bot:" \
-                                     " selecciona 👇 las *diferentes opciones* 🔢 y navega por los distintos *menús que aparecerán*\n\n" \
-                                     "❗_Utiliza_ /help _cuando estés haciendo cualquier acción con el bot para obtener ayuda personalizada_",
+                                     "\n\nHola, bienvenido 😃\n\nUsa la *guía básica* para aprender a usar el bot. El" \
+                                     " _menú principal_ se encuentra abajo a la derecha, el icono de la barra  *[ / ]*"\
+                                     "\n\n❗_Utiliza_ /help _cuando estés haciendo cualquier acción con el bot para obtener ayuda personalizada_",
                                 parse_mode=telegram.ParseMode.MARKDOWN,
                                 reply_markup=reply_markup,
                                 message_id=message_id)
         elif lang == 'en':
             bot.editMessageText(chat_id=chat_id,
                                 text="ᴜsᴀɢᴇ ɢᴜɪᴅᴇ" \
-                                     "\n\nHi, welcome 😃\n\nRight now, *you have a guide* 📖 for using this bot:" \
-                                     " choose 👇 between *different options* 🔢 and go trough *various menus that will appear*\n\n" \
-                                     "❗_Use_ /help _when you are doing something with the bot to get personalized help_",
+                                     "\n\nHi, welcome 😃\n\nUse the *basic guide* to learn how to use this bot. The"\
+                                     " _main menu_ is located at the bottom right, the slash icon  *[ / ]*"\
+                                     "\n\n❗_Use_ /help _when you are doing something with the bot to get personalized help_",
                                 parse_mode=telegram.ParseMode.MARKDOWN,
                                 reply_markup=reply_markup,
                                 message_id=message_id)
@@ -154,11 +156,11 @@ def key_tz(bot, update, chat_id):
 
     if lang == 'es':
         bot.sendMessage(chat_id=chat_id,
-                        text="¿Son las "+now+" dónde vives?",
+                        text="¿Son las "+now+"?",
                         reply_markup=reply_markup)
     else:
         bot.sendMessage(chat_id=chat_id,
-                        text="Is "+now+" where you are living?",
+                        text="Is "+now+" right now?",
                         reply_markup=reply_markup)
 
 
@@ -170,6 +172,7 @@ def key_more(bot, update, chat_id, message_id, lang):
         share = "¡Comparte! 🗣"
         vid = "Ver el vídeo 👁"
         gui = "Guía completa 🔖"
+        gui_url = 'https://goo.gl/xRF4dE'
         iq = "share es"
     else:
         apo = "Support the project 🌟"
@@ -177,10 +180,10 @@ def key_more(bot, update, chat_id, message_id, lang):
         share = "Share! 🗣"
         vid = "Watch video 👁"
         gui = "Complete guide 🔖"
+        gui_url = 'https://goo.gl/ndVfmX'
         iq = "share en"
-    url = 'https://storebot.me/bot/googlnews_bot'
+    url = 'https://goo.gl/60ECGQ'
     yt_url = 'https://youtube.com/'
-    gui_url = 'https://wordpress.com'
 
     keyboard = [[InlineKeyboardButton(apo, url=url), InlineKeyboardButton(vid, url=yt_url)],
                 [InlineKeyboardButton(gui, url=gui_url), InlineKeyboardButton(share, switch_inline_query=iq)],
@@ -190,20 +193,16 @@ def key_more(bot, update, chat_id, message_id, lang):
 
     if lang == 'es':
         bot.editMessageText(chat_id=chat_id,
-                            text="Muchas gracias por *utilizame* y haber *llegado hasta aquí* 😄 Esta parte es solo para" \
-                            " _promocionar este bot_ 🌟: he hecho un *gran esfuerzo* y le he dedicado mucho mucho tiempo" \
-                            " para que *uses lo que estás utilizando hoy*.\n\nAquí abajo tienes unos botones donde" \
-                            " podrás *puntuar el bot* 🌟, ver 👁 el [video promocional pulsando sobre la miniatura]("+yt_url+")" \
-                            ", *compartir el bot 🗣* y acceder a *la guía completa 🔖* en _WordPress_",
+                            text="Muchas gracias por *utilizame* y haber *llegado hasta aquí* 😄" \
+                            "\n*Puntua el bot* 🌟, ve 👁 el [video promocional pulsando sobre la miniatura]("+yt_url+")" \
+                            ", *comparte el bot 🗣* y accede a *la guía completa 🔖* en _WordPress_",
                             parse_mode=telegram.ParseMode.MARKDOWN,
                             message_id=message_id,
                             reply_markup=reply_markup)
     else:
         bot.editMessageText(chat_id=chat_id,
-                            text="Thank you so much for *using me* and *have come here* 😄 This part is only for" \
-                            " _promoting this bot_ 🌟: I did a *big effort*and this bot *took me so much time*" \
-                            " in order to you to *use what you are using today*.\n\nRight here, below, you have buttons" \
-                            " where you will be able to *rate the bot* 🌟, see 👁 the [promotional video pressing on thumbnail]("+yt_url+")" \
+                            text="Thank you so much for *using me* and *have come here* 😄" \
+                            "\n*Rate the bot* 🌟, see 👁 the [promotional video pressing on thumbnail]("+yt_url+")" \
                             ", *share the bot 🗣* and access to the *complete guide 🔖* in _WordPress_",
                             parse_mode=telegram.ParseMode.MARKDOWN,
                             message_id=message_id,
@@ -226,7 +225,7 @@ def key_guide(bot, update, chat_id, message_id, lang):
                             text="ɢᴜíᴀ ʙásɪᴄᴀ" \
                             "\n\n*1.* Usa /start para recopilar *las últimas noticias* 📈 en base a tus preferencias" \
                             "\n*2.* Envíame palabras clave y *buscaré los mejores resultados* 🌟" \
-                            "\n*3.* Configúrame a tu gusto en /preferences, pudiendo incluso *programarme 📆" \
+                            "\n*3.* Configúrame a tu gusto en /config, pudiendo incluso *programarme 📆" \
                             " unas horas* para mandarte artículos" \
                             "\n*4.* Revisa las *políticas de privacidad* 👮 en /privacy",
                             message_id=message_id,
@@ -237,7 +236,7 @@ def key_guide(bot, update, chat_id, message_id, lang):
                             text="ʙᴀsɪᴄ ɢᴜɪᴅᴇ" \
                                  "\n\n*1.* Use /start for fetching *latest news* 📈 based on your preferences" \
                                  "\n*2.* Send me *keywords* and I will look for the best results 🌟" \
-                                 "\n*3.* Set me up with your *interests* in /preferences, being able also " \
+                                 "\n*3.* Set me up with your *interests* in /config, being able also " \
                                  "to set *a schedule* 📆 for sending you articles" \
                                  "\n*4.* Review *privacy policy* 👮 in /privacy",
                             message_id=message_id,
@@ -263,15 +262,19 @@ _necesito que me digas tu idioma_\n\nHi, welcome 😄. In order to offer you a b
 
 @run_async
 def key_max(bot, update, chat_id, message_id):
+    lang = db_m.read_lang(chat_id)
+    if lang == 'es':
+        bck = "◀ Atrás"
+    else:
+        bck = "◀ Back"
     keyboard = [[InlineKeyboardButton("20", callback_data='20')],
                 [InlineKeyboardButton("50", callback_data='50')],
                 [InlineKeyboardButton("75", callback_data='75')],
                 [InlineKeyboardButton("100", callback_data='100')],
                 [InlineKeyboardButton("150", callback_data='150')],
-                [InlineKeyboardButton("200", callback_data='200')]]
+                [InlineKeyboardButton("200", callback_data='200')],
+                [InlineKeyboardButton(bck, callback_data='pref2')]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-
-    lang = db_m.read_lang(chat_id)
 
     if lang == 'es':
         bot.editMessageText(chat_id=chat_id,
@@ -292,7 +295,7 @@ def key_max(bot, update, chat_id, message_id):
 def key_two(bot, update, chat_id, lang, message_id):
     if lang == 'es':
         next1 = "Siguiente ➡"
-        text = "ᴘʀᴇғᴇʀᴇɴᴄɪᴀs\n\n*Cambia tus preferencias* en /preferences ⚙, añadiendo las que quieras _escribiéndolas una tras otra, separadas por una coma_ \
+        text = "ᴘʀᴇғᴇʀᴇɴᴄɪᴀs\n\n*Cambia tus preferencias* en /config ⚙, añadiendo las que quieras _escribiéndolas una tras otra, separadas por una coma_ \
         \n`(microsoft,España)`.\n\nSi lo que *quieres es eliminarlas* 🗑, sencillamente añade \"Eliminar\" seguido del _número asignado a la preferencia_" \
                 "\n\n`1: microsoft\n2: España\n\nEliminar 1,2`\n\nCuando hayas acabado, escribe *Terminado*\n\n`1/2`"
         prev1 = "⬅ Atrás"
@@ -323,14 +326,17 @@ def key_three(bot, update, chat_id, lang, message_id):
     if lang == 'es':
         nextb = "Menú principal 📋"
         text = "ᴘʀᴇғᴇʀᴇɴᴄɪᴀs\n\n_Prioriza y restringe páginas en tus preferencias:_\
-        \n*1. Priorizar*‼: `android ABC`\n*2. Restringir* ⛔: `economía -elpais`\
-        \n\n_(el nombre de la página web debe ir todo junto cuando restringes)_\n\n`2/2`"
+        \n*1. Priorizar*: `android ABC`\n*2. Restringir*: `economía -elpais`\
+        \n\nPara _priorizar_ únicamente tienes que *añadir el nombre del periódico o de la web* detrás del tema" \
+        "\nPara _restringir_, *pon un guion delante del nombre del periódico o web*, con el nombre de la página web" \
+        " _todo junto_\n\n`2/2`"
         prev1 = "⬅ Anterior"
     else:
         nextb = "Main menu 📋"
         text = "ᴘʀᴇғᴇʀᴇɴᴄᴇs\n\n_Prioritize and limit web-pages in your preferences:_\
-        \n*1. Prioritize*‼: `windows New York Times`\n*2. Restrict* ⛔: `economy -reuters`\
-        \n\n_(web-page must go together while limiting results)_\n\n`2/2`"
+        \n*1. Prioritize*: `windows New York Times`\n*2. Restrict*: `economy -reuters`\
+        \n\nFor _prioritizing_ just *add the newspaper name or web-page name* after the topic" \
+        "\nFor _restricting_, add *a script before newspaper-name or web-page name*, with _web-page name all together_\n\n`2/2`"
         prev1 = "⬅ Previously"
     keyboard = [[InlineKeyboardButton(prev1, callback_data="2"), InlineKeyboardButton(nextb, callback_data="1")]]
 
@@ -409,13 +415,19 @@ def key_five(bot, update, chat_id, lang, message_id):
         url = "http://pabloaracil.es/trucos-para-buscar-eficientemente-en-google/"
         text = "ɢᴜíᴀ ᴅᴇ ʙúsǫᴜᴇᴅᴀ\n\n*Busca noticias directamente* escribiendo y enviando el _término que quieras buscar._\
         \n*Prioriza páginas o restríngelas* de esta manera:\
-\n\n*1. Priorizar*‼: `android ABC`\n*2. Restringir* ⛔: `economía -elpais`\n\nEl bot utiliza el motor de *búsqueda de Google*" \
+\n*1. Priorizar*: `android ABC`\n*2. Restringir*: `economía -elpais`\
+        \n\nPara _priorizar_ únicamente tienes que *añadir el nombre del periódico o de la web* detrás del tema" \
+        "\nPara _restringir_, *pon un guion delante del nombre del periódico o web*, con el nombre de la página web" \
+        " _todo junto_\n\nEl bot utiliza el motor de *búsqueda de Google*" \
         ", por lo que puedes leer [aquí](http://pabloaracil.es/trucos-para-buscar-eficientemente-en-google/) algunos *trucos para mejorar tus búsquedas*"
         prev1 = "⬅ Anterior"
     else:
-        text = "*5. Look for news directly* writing and sending the _search term._\
+        text = "sᴇᴀʀᴄʜ ɢᴜɪᴅᴇ\n\n*Look for news directly* writing and sending the _search term._\
         \n*Prioritize or limit web pages* like this:\
-\n\n*1. Prioritize*‼: `windows New York Times`\n*2. Restrict* ⛔: `economy -reuters`\n\nThe bot is using *Google search*" \
+\n*1. Prioritize*: `windows New York Times`\n*2. Restrict*: `economy -reuters`\
+        \n\nFor _prioritizing_ just *add the newspaper name or web-page name* after the topic" \
+        "\nFor _restricting_, add *a script before newspaper-name or web-page name*, with _web-page name all together_\
+        \n\nThe bot is using *Google search*" \
         ", so you can read [here](http://motto.time.com/4116259/google-search/) some *tricks for improving results*"
         next1 = "Read more 📰"
         url = "http://motto.time.com/4116259/google-search/"
@@ -466,6 +478,38 @@ def key_six(bot, update, chat_id, lang, message_id):
 
 
 @run_async
+def key_pref2(bot, update, chat_id, message_id):
+    lang = db_m.read_lang(chat_id)
+    if lang == 'es':
+        zone = "Zona horaria 🕙"
+        time = "Idioma 🗣"
+        pref = "Preferencias ⚙"
+        prog = "Programación 📅"
+        res = "Número de resultados 📚"
+    else:
+        zone = "Time zone 🕙"
+        time = "Language 🗣"
+        pref = "Preferences ⚙"
+        prog = "Time scheduling 📅"
+        res = "Number of results 📚"
+    keyboard = [[InlineKeyboardButton(zone, callback_data='tz'), InlineKeyboardButton(time, callback_data='lang')],
+                [InlineKeyboardButton(pref, callback_data='lista'), InlineKeyboardButton(prog, callback_data='prog')],
+                [InlineKeyboardButton(res, callback_data='max')]]
+
+    reply_markup2 = InlineKeyboardMarkup(keyboard)
+
+    if lang == 'es':
+        bot.editMessageText(chat_id=chat_id,
+                            text='¿Qué quieres actualizar? Pulsa encima de la opción que quieras',
+                            parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=reply_markup2, message_id=message_id)
+    else:
+        bot.editMessageText(chat_id=chat_id,
+                            text='What do you want to update? Press on the option you want to change',
+                            reply_markup=reply_markup2, message_id=message_id)
+    return "OK"
+
+
+@run_async
 def key_pref(bot, update, chat_id, message_id):
     lang = db_m.read_lang(chat_id)
     if lang == 'es':
@@ -494,13 +538,13 @@ def key_pref(bot, update, chat_id, message_id):
         if lang == 'es':
             bot.sendMessage(chat_id=chat_id,
                             text="Perfecto 😄\
-\nLa configuración inicial está casi. Solo falta que definas algunas preferencias para buscar artículos. Pulsa *\"Terminado\"* cuando hayas acabado",
+\nLa configuración inicial ya está casi completada. A continuación tienes *diversos temas* en donde podrás elegir _tus intereses_ o terminar y configurarlo *manualmente luego*",
                             reply_markup=reply_markup,
                             parse_mode=telegram.ParseMode.MARKDOWN)
         else:
             bot.sendMessage(chat_id=chat_id,
                             text="Perfect 😄\
-\nThe initial setup is already done. Just define some preferences for searching articles. Press on *\"Done\"* when you have finished",
+\nThe initial setup is already done. Now you have *some topics* in where you will _be able to choose your interests_ or set them up *manually*",
                             reply_markup=reply_markup,
                             parse_mode=telegram.ParseMode.MARKDOWN)
     else:
@@ -553,7 +597,7 @@ def key_cul(bot, update, chat_id, message_id):
         else:
             viv = "Danza ❌"
             cb5 = '6_danza musica'
-        back = "⬅ Atrás"
+        back = "⬅ Guardar y volver"
     else:
         if pref is not None and 'music artist' in pref:
             win = "Music ✔"
@@ -585,7 +629,7 @@ def key_cul(bot, update, chat_id, message_id):
         else:
             viv = "Dancing ❌"
             cb5 = '6_dancing music'
-        back = "⬅ Back"
+        back = "⬅ Save and exit"
 
     if lang == 'es':
         keyboard = [[InlineKeyboardButton(win, callback_data=cb1), InlineKeyboardButton(app, callback_data=cb2)],
@@ -598,10 +642,10 @@ def key_cul(bot, update, chat_id, message_id):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     if lang == 'es':
-        bot.editMessageText(chat_id=chat_id, text="Seleccionando las preferencias sobre *Deportes*",
+        bot.editMessageText(chat_id=chat_id, text="Seleccionando las preferencias sobre *Cultura*",
                             message_id=message_id, reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)
     else:
-        bot.editMessageText(chat_id=chat_id, text="Choosing preferences about *Sports*",
+        bot.editMessageText(chat_id=chat_id, text="Choosing preferences about *Culture*",
                             message_id=message_id, reply_markup=reply_markup, parse_mode=telegram.ParseMode.MARKDOWN)
 
 
@@ -640,7 +684,7 @@ def key_dep(bot, update, chat_id, message_id):
         else:
             viv = "MotoGP ❌"
             cb5 = '5_motogp'
-        back = "⬅ Atrás"
+        back = "⬅ Guardar y volver"
     else:
         if pref is not None and 'football' in pref:
             win = "Football ✔"
@@ -672,7 +716,7 @@ def key_dep(bot, update, chat_id, message_id):
         else:
             viv = "MotoGP ❌"
             cb5 = '5_motogp'
-        back = "⬅ Back"
+        back = "⬅ Save and exit"
 
     if lang == 'es':
         keyboard = [[InlineKeyboardButton(win, callback_data=cb1), InlineKeyboardButton(app, callback_data=cb2)],
@@ -697,12 +741,12 @@ def key_int(bot, update, chat_id, message_id):
     lang = db_m.read_lang(chat_id)
     pref = db_m.get_pref(chat_id)
     if lang == 'es':
-        if pref is not None and 'noticias' in pref:
+        if pref is not None and 'internacional noticias' in pref:
             win = "Noticias generales ✔"
-            cb1 = '4_noticias'
+            cb1 = '4_internacional noticias'
         else:
             win = "Noticias generales ❌"
-            cb1 = '4_noticias'
+            cb1 = '4_internacional noticias'
         if pref is not None and 'UE union europea' in pref:
             app = "Unión Europea ✔"
             cb2 = '4_UE union europea'
@@ -721,7 +765,7 @@ def key_int(bot, update, chat_id, message_id):
         else:
             cib = "Asia ❌"
             cb4 = '4_noticias asia'
-        back = "⬅ Atrás"
+        back = "⬅ Guardar y volver"
     else:
         if pref is not None and 'international news' in pref:
             win = "General News ✔"
@@ -741,13 +785,13 @@ def key_int(bot, update, chat_id, message_id):
         else:
             anr = "America ❌"
             cb3 = '4_news america'
-        if pref is not None and 'noticias asia' in pref:
+        if pref is not None and 'news asia' in pref:
             cib = "Asia ✔"
             cb4 = '4_news asia'
         else:
             cib = "Asia ❌"
             cb4 = '4_news asia'
-        back = "⬅ Back"
+        back = "⬅ Save and exit"
 
     keyboard = [[InlineKeyboardButton(win, callback_data=cb1), InlineKeyboardButton(app, callback_data=cb2)],
                 [InlineKeyboardButton(anr, callback_data=cb3), InlineKeyboardButton(cib, callback_data=cb4)],
@@ -797,7 +841,7 @@ def key_eco(bot, update, chat_id, message_id):
         else:
             viv = "Vivienda ❌"
             cb5 = '3_vivienda economía'
-        back = "⬅ Atrás"
+        back = "⬅ Guardar y volver"
     else:
         if pref is not None and 'economy banks' in pref:
             win = "Macroeconomy ✔"
@@ -829,7 +873,7 @@ def key_eco(bot, update, chat_id, message_id):
         else:
             viv = "Housing ❌"
             cb5 = '3_housing economy'
-        back = "⬅ Back"
+        back = "⬅ Save and exit"
 
     if lang == 'es':
         keyboard = [[InlineKeyboardButton(win, callback_data=cb1), InlineKeyboardButton(app, callback_data=cb2)],
@@ -878,7 +922,7 @@ def key_soc(bot, update, chat_id, message_id):
         else:
             cib = "Jobs ❌"
             cb4 = '2_job contract'
-        back = "⬅ Back"
+        back = "⬅ Save and exit"
     else:
         if pref is not None and 'salud españa' in pref:
             win = "Salud ✔"
@@ -910,7 +954,7 @@ def key_soc(bot, update, chat_id, message_id):
         else:
             goo = "Trabajo ❌"
             cb5 = '2_empleo españa'
-        back = "⬅ Atrás"
+        back = "⬅ Guardar y volver"
 
     if lang == 'es':
         keyboard = [[InlineKeyboardButton(win, callback_data=cb1), InlineKeyboardButton(app, callback_data=cb2)],
@@ -971,7 +1015,7 @@ def key_tec(bot, update, chat_id, message_id):
         else:
             nt = "Invenciones ❌"
             cb6 = "1_nueva tecnología"
-        back = "⬅ Atrás"
+        back = "⬅ Guardar y volver"
     else:
         if pref is not None and 'windows' in pref:
             win = "Windows ✔"
@@ -1009,7 +1053,7 @@ def key_tec(bot, update, chat_id, message_id):
         else:
             nt = "Inventions ❌"
             cb6 = "1_new technology inventions"
-        back = "⬅ Back"
+        back = "⬅ Save and exit"
 
     keyboard = [[InlineKeyboardButton(win, callback_data=cb1), InlineKeyboardButton(app, callback_data=cb2)],
                 [InlineKeyboardButton(anr, callback_data=cb3), InlineKeyboardButton(cib, callback_data=cb4)],

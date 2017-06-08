@@ -4,9 +4,6 @@ from telegram.ext.dispatcher import run_async
 import telegram
 import gsearch
 from uuid import uuid4
-from bs4 import BeautifulSoup
-import urllib.request as rq
-import time
 from functions.title_finder import title as title_finder
 
 
@@ -86,7 +83,7 @@ def inlinequery(bot, update):
             description="NewsBot",
             input_message_content=InputTextMessageContent(
                 message_text="¡Mira qué bot tan genial! 😱\n\nRecopila *cualquier noticia* 🗞 y además se _puede programar_\
-        \n\n*PRUÉBALO AQUÍ*: @GooglNews\\_bot O en [este enlace](https://telegram.me/googlnews_bot)",
+        \n\n*PRUÉBALO AQUÍ*: @GooglNews\\_bot O en [este enlace](https://goo.gl/C3mJbb)",
                 parse_mode=telegram.ParseMode.MARKDOWN,
             )
         ))
@@ -97,7 +94,7 @@ def inlinequery(bot, update):
             description="NewsBot",
             input_message_content=InputTextMessageContent(
                 message_text="Look such a great bot! 😱\n\nIt looks for *every news* 🗞 and it can be _scheduled_\
-        \n\n*CHECK IT OUT*: @GooglNews\\_bot OR at [this link](https://telegram.me/googlnews_bot)",
+        \n\n*CHECK IT OUT*: @GooglNews\\_bot OR at [this link](https://goo.gl/C3mJbb)",
                 parse_mode=telegram.ParseMode.MARKDOWN,
             )
         ))

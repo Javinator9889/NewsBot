@@ -1,17 +1,14 @@
 import telegram
 from telegram.ext.dispatcher import run_async
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from bs4 import BeautifulSoup
-import urllib.request as rq
-import pickle
-import time
 import ujson as json
 import functions.database_manager as db_m
 from functions.title_finder import title as title_finder
+import datetime
 
 
 @run_async
-def key_one(bot, chat_id, message_id):
+def key_one(bot, update, chat_id, message_id):
     input_data = open('dict_out_{}.json'.format(chat_id), 'rb')
     json_data = json.load(input_data)
     a = 1
@@ -20,6 +17,7 @@ def key_one(bot, chat_id, message_id):
     current_val.close()
 
     lang = db_m.read_lang(chat_id)
+    db_m.last_usage(chat_id, datetime.datetime.now().strftime("%H:%M %d-%m-%Y"))
     url = json_data["Page {}".format(a)]
     if url is None:
         if db_m.read_lang(chat_id) == 'es':
@@ -50,12 +48,13 @@ def key_one(bot, chat_id, message_id):
 
 
 @run_async
-def key_var(bot, chat_id, message_id, n_or_p):
+def key_var(bot, update, chat_id, message_id, n_or_p):
     input_data = open('dict_out_{}.json'.format(chat_id), 'rb')
     json_data = json.load(input_data)
     current_val = open('current_{}.txt'.format(chat_id), 'r')
     read_value = current_val.readline()
     current_val.close()
+
     if n_or_p is True:
         a = int(read_value) + 1
     else:
@@ -66,6 +65,7 @@ def key_var(bot, chat_id, message_id, n_or_p):
     new_val.close()
 
     lang = db_m.read_lang(chat_id)
+    db_m.last_usage(chat_id, datetime.datetime.now().strftime("%H:%M %d-%m-%Y"))
     url = json_data["Page {}".format(a)]
     print("Reading value:", a, "URL:", url)
     title = title_finder(url)
@@ -109,10 +109,11 @@ def key_var(bot, chat_id, message_id, n_or_p):
 
 
 @run_async
-def load_keys(bot, chat_id, dictionary, message_id):
+def load_keys(bot, update, chat_id, dictionary, message_id):
     json_str = json.dumps(dictionary, ensure_ascii=False, indent=4)
     bytes_obj = json_str.encode()
     file = open('dict_out_{}.json'.format(chat_id), 'wb')
     file.write(bytes_obj)
     file.close()
-    key_one(bot, chat_id, message_id)
+    db_m.last_usage(chat_id, datetime.datetime.now().strftime("%H:%M %d-%m-%Y"))
+    key_one(bot, update, chat_id, message_id)

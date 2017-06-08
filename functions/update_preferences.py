@@ -3,10 +3,12 @@ import os
 import os.path as path
 import functions.database_manager as db_m
 import re
+import datetime
 
 
 def upd_pref(bot, chat_id, text):
     lang = db_m.read_lang(chat_id)
+    db_m.last_usage(chat_id, datetime.datetime.now().strftime("%H:%M %d-%m-%Y"))
     if text == "Terminado" or text == "terminado" or text == "Done" or text == "done":
         if path.exists("pref_{}.txt".format(chat_id)):
             pref_file = open("pref_{}.txt".format(chat_id), 'r')
@@ -43,7 +45,7 @@ def upd_pref(bot, chat_id, text):
             file = open("pref_{}.txt".format(chat_id), 'r')
             saved_pref = file.readline()
             file.close()
-            if saved_pref == '':
+            if saved_pref == '' or saved_pref is None:
                 err = True
             else:
                 pref_list = saved_pref.split(",")
@@ -51,7 +53,7 @@ def upd_pref(bot, chat_id, text):
                 err = False
         else:
             saved_pref = db_m.get_pref(chat_id)
-            if saved_pref == '':
+            if saved_pref == '' or saved_pref is None:
                 err = True
             else:
                 pref_list = saved_pref.split(",")
@@ -91,7 +93,7 @@ def upd_pref(bot, chat_id, text):
                 if lang == 'es':
                     comp_list = "_vacío_"
                 else:
-                    comp_list = "_empty"
+                    comp_list = "_empty_"
             else:
                 for a in range(0, len(out)):
                     lst = re.findall(r'"(.*?)(?<!\\)"', out[a])
@@ -119,7 +121,7 @@ def upd_pref(bot, chat_id, text):
             file = open("pref_{}.txt".format(chat_id), 'r')
             saved_pref = file.readline()
             file.close()
-            if saved_pref == '':
+            if saved_pref == '' or saved_pref is None:
                 err = True
             else:
                 pref_list = saved_pref.split(",")
@@ -127,7 +129,7 @@ def upd_pref(bot, chat_id, text):
                 err = False
         else:
             saved_pref = db_m.get_pref(chat_id)
-            if saved_pref == '':
+            if saved_pref == '' or saved_pref is None:
                 err = True
             else:
                 pref_list = saved_pref.split(",")
@@ -195,14 +197,14 @@ def upd_pref(bot, chat_id, text):
             file = open("pref_{}.txt".format(chat_id), 'r')
             saved_pref = file.readline()
             file.close()
-            if saved_pref == '':
+            if saved_pref == '' or saved_pref is None:
                 out = []
             else:
                 pref_list = saved_pref.split(",")
                 out = [var for var in pref_list if var]
         else:
             saved_pref = db_m.get_pref(chat_id)
-            if saved_pref == '':
+            if saved_pref == '' or saved_pref is None:
                 out = []
             else:
                 pref_list = saved_pref.split(",")
@@ -222,7 +224,7 @@ def upd_pref(bot, chat_id, text):
             if lang == 'es':
                 comp_list = "_vacío_"
             else:
-                comp_list = "_empty"
+                comp_list = "_empty_"
         else:
             for a in range(0, len(out)):
                 lst = re.findall(r'"(.*?)(?<!\\)"', out[a])

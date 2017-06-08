@@ -25,7 +25,7 @@ import functions.errors as err
 import time                                                                             # Standard python libraries
 
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',    # Starting logging at WARNING level (for errors information)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 token_file = open("TOKEN.txt", 'r')
@@ -44,7 +44,7 @@ echo_handler = MessageHandler(Filters.text, msg.echo)
 dispatcher.add_handler(echo_handler)
 loc_handler = MessageHandler(Filters.location, lc.location)
 dispatcher.add_handler(loc_handler)
-pref_handler = CommandHandler('preferences', pf.key_pref)
+pref_handler = CommandHandler('config', pf.key_pref)
 dispatcher.add_handler(pref_handler)
 dev_handler = CommandHandler('develop', dev.develop)
 dispatcher.add_handler(dev_handler)
@@ -74,12 +74,12 @@ updater.dispatcher.add_handler(CallbackQueryHandler(ch.callb_button))
 updater.start_polling(timeout=30)
 print("Starting bot...\n\n")
 
-print("Iniciando programación...")
-
 print("NewsBot (Telegram)  Copyright (C) 2017  Javinator9889\n\n\
 This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.\n\
 This is free software, and you are welcome to redistribute it\
 under certain conditions; type `show c' for details.")
+
+print("Iniciando programación...")
 
 try:
     while 1:
@@ -98,19 +98,17 @@ try:
                               .strftime("\"%H:%M, %d-%m-%Y on %A\""))
                         prog.prog(updater.bot, updater, row[0])
                         prog_hours = db_m.get_time_prog(row[0]).lower().split(",")
-                        if 'lun' in prog_hours[0] or 'mar' in prog_hours[0] or 'mie' in prog_hours[0] or\
-                                'jue' in prog_hours[0] or 'vie' in prog_hours[0] or 'sab' in prog_hours[0] or\
-                                'dom' in prog_hours[0] or 'mon' in prog_hours[0] or 'tue' in prog_hours[0] or\
-                                'wed' in prog_hours[0] or 'thu' in prog_hours[0] or 'fri' in prog_hours[0] or\
-                                'sat' in prog_hours[0] or 'sun' in prog_hours[0]:
+                        if 'lun' in prog_hours[0] or 'mar' in prog_hours[0] or 'mie' in prog_hours[0] or 'jue' in prog_hours[0] or 'vie' in prog_hours[0] or 'sab' in prog_hours[0] or 'dom' in prog_hours[0] or 'mon' in prog_hours[0] or 'tue' in prog_hours[0] or 'wed' in prog_hours[0] or 'thu' in prog_hours[0] or 'fri' in prog_hours[0] or 'sat' in prog_hours[0] or 'sun' in prog_hours[0]:
                             next_time = add_time.add_week(times[0], row[0], 1)
                         else:
                             next_time = add_time.add_day(times[0], row[0], 1)
-                        if times[1] is not None:
-                            final_time = next_time + "," + times[1]
-                        else:
+                        try:
+                            if times[1] is not None:
+                                final_time = next_time + "," + times[1]
+                        except IndexError:
                             final_time = next_time
                         db_m.update_prog_time(final_time, row[0])
+                        print("Time scheduled correctly", row[0])
                     elif times[1] == dt.datetime.now(pytz.timezone("Europe/Madrid")).strftime("%Y-%m-%d %H:%M %a"):
                         print("Sending news to", row[0], "at time:", dt.datetime.now(pytz.timezone("Europe/Madrid")) \
                               .strftime("\"%H:%M, %d-%m-%Y on %A\""))
@@ -124,11 +122,13 @@ try:
                             next_time = add_time.add_week(times[1], row[0], 2)
                         else:
                             next_time = add_time.add_day(times[1], row[0], 2)
-                        if times[0] is not None:
-                            final_time = times[0] + "," + next_time
-                        else:
+                        try:
+                            if times[0] is not None:
+                                final_time = times[0] + "," + next_time
+                        except IndexError:
                             final_time = next_time
                         db_m.update_prog_time(final_time, row[0])
+                        print("Time scheduled correctly", row[0])
                 except IndexError:
                     # print("Values for", row[0], "are not set-up")
                     pass
