@@ -23,6 +23,7 @@ Telegram bot for looking for news. Has scheduling and preferences
  max_results  | int(3)        | YES  |     | NULL    |       
  next_prog    | varchar(150)  | YES  |     | NULL    |       
  usr_name     | varchar(150)  | YES  |     | NULL    |       
+ last_time    | varchar(50)   | YES  |     | NULL    |       
 
 
 Use:
@@ -51,7 +52,9 @@ Use:
 
    -> is_prog VARCHAR(5),
 
-   -> is_pref VARCHAR(5)
+   -> is_pref VARCHAR(5),
+   
+   -> last_time VARCHAR(50)
 
    );
 ```
